@@ -1,12 +1,16 @@
 {
-  "name": "lesson-2",
+  "name": "07-todo-comander",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "todo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^9.4.1",
+    "nanoid": "^3.3.4"
+  }
 }

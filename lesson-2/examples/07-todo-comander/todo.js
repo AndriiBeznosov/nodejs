@@ -5,8 +5,9 @@
 //*-------------------------
 
 const { addTodo, removeTodo, listTodo } = require("./db/db");
+const { program } = require("commander");
 
-async function invokeAction({ action, title, id }) {
+async function invokeAction({ action, title, id, limit }) {
   switch (action) {
     case "add":
       console.log("invoke add", title);
@@ -17,7 +18,7 @@ async function invokeAction({ action, title, id }) {
       await removeTodo(id);
       break;
     case "list":
-      const list = await listTodo();
+      const list = await listTodo({ limit });
       console.table(list);
       break;
 
@@ -30,22 +31,26 @@ async function invokeAction({ action, title, id }) {
 // invokeAction({ action: "remove", id: "xL7BFkethjfkyPeFXXswv" });
 // invokeAction({ action: "list" });
 
-const [, , action] = process.argv;
+program.command("add <title>").action((options) => {
+  const title = options;
+  console.log(title);
+  invokeAction({ action: "add", title });
+});
 
-switch (action) {
-  case "add":
-    const [, , , ...title] = process.argv;
-    invokeAction({ action, title: title.join(" ") });
-    break;
+program
+  .command("list")
+  .alias("ls")
+  .option("-l, --limit <limit>")
+  .action((options) => {
+    const limit = options.limit;
+    console.log("limit", limit);
+    invokeAction({ action: "list", limit });
+  });
 
-  case "remove":
-    const [, , , id] = process.argv;
-    invokeAction({ action, id });
-    break;
+program.command("remove <id>").action((options) => {
+  const id = options;
+  console.log(id);
+  invokeAction({ action: "remove", id });
+});
 
-  case "list":
-    invokeAction({ action });
-    break;
-  default:
-    break;
-}
+program.parse();
