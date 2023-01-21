@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema(
       type: String,
       minLength: [6, "password should be at least 6 characters long"],
     },
+    movies: { type: [mongoose.Types.ObjectId], rel: "movie" },
   },
   {
     versionKey: false,

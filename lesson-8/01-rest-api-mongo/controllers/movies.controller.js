@@ -2,9 +2,10 @@ const { HttpError } = require("../helpers/index.js");
 const { Movie } = require("../models/movie");
 
 async function getMovies(req, res) {
-  const { limit } = req.query;
-  const movies = await Movie.find({}).limit(limit);
-  res.json(movies);
+  const { limit, page } = req.query;
+  const skip = (page - 1) * limit;
+  const movies = await Movie.find({}).skip(skip).limit(limit);
+  return res.json(movies);
 }
 
 async function getMovie(req, res, next) {

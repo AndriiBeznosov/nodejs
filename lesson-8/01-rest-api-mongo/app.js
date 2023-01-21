@@ -2,9 +2,9 @@ const express = require("express");
 
 const morgan = require("morgan");
 const cors = require("cors");
-const { routerMovies } = require("./routes/movies");
+const { movieRouter } = require("./routes/movies");
 const { authRouter } = require("./routes/auth");
-const { tryCatchWrapper } = require("./helpers");
+const { userRouter } = require("./routes/user");
 
 const app = express();
 
@@ -14,8 +14,9 @@ app.use(express.json()); // tell express to work with JSON in body
 app.use(morgan("dev"));
 
 // routes
-app.use("/api/movies", routerMovies);
+app.use("/api/movies", movieRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
 
 // 404
 app.use((req, res) => {
