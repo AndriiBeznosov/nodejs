@@ -1,8 +1,6 @@
 const { User } = require("../models/user");
 const { HttpError } = require("../helpers");
 const bcrypt = require("bcrypt");
-const { Conflict } = require("http-errors");
-const jwt = require("jsonwebtoken");
 
 async function register(req, res) {
   const { email, password } = req.body;
@@ -14,8 +12,7 @@ async function register(req, res) {
     res.status(201).json({ data: { user: saveUser } });
   } catch (error) {
     if (error.message.includes("E11000 duplicate key error")) {
-      // throw new HttpError(409, "User with this email already exists ");
-      throw Conflict("User with this email already exists ");
+      throw new HttpError(409, "User with this email already exists ");
     }
     throw error;
     // res.status(409).json({ message: error.message });
@@ -23,7 +20,6 @@ async function register(req, res) {
   }
 }
 async function login(req, res) {
-  const { JWT_SECRET } = process.env;
   const { email, password } = req.body;
 
   const storedUser = await User.findOne({ email });
@@ -35,9 +31,7 @@ async function login(req, res) {
   if (!isPaswirdValid) {
     throw new HttpError(401, "password is not valid");
   }
-  const payload = { id: storedUser._id, email: storedUser.email };
-  const token = await jwt.sign(payload, JWT_SECRET);
-  res.json({ data: { token } });
+  res.json({ data: { token: "<TOKEN>" } });
 }
 
 module.exports = {

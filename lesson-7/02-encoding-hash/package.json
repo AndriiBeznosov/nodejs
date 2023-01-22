@@ -1,0 +1,21 @@
+{
+  "name": "02-encoding-hash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "bcrypt": "^5.1.0",
+    "md5": "^2.3.0"
+  }
+}
