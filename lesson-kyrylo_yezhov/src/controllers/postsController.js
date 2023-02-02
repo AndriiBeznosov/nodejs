@@ -8,7 +8,9 @@ const {
 
 const getPostsController = async (req, res) => {
   const { _id: userId } = req.user;
-  const posts = await getPosts(userId);
+  const { page, limit } = req.query;
+
+  const posts = await getPosts(userId, { page, limit });
   res.json({ posts });
 };
 

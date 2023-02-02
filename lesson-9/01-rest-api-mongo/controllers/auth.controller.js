@@ -1,6 +1,6 @@
 const { User } = require("../models/user");
 const { HttpError } = require("../helpers");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const { Conflict } = require("http-errors");
 const jwt = require("jsonwebtoken");
 
@@ -27,7 +27,6 @@ async function login(req, res) {
   const { email, password } = req.body;
 
   const storedUser = await User.findOne({ email });
-
   if (!storedUser) {
     throw new HttpError(401, "email is not valid");
   }
@@ -36,7 +35,6 @@ async function login(req, res) {
   if (!isPaswirdValid) {
     throw new HttpError(401, "password is not valid");
   }
-
   const payload = { id: storedUser._id, email: storedUser.email };
   const token = await jwt.sign(payload, JWT_SECRET);
   res.json({ data: { token } });
